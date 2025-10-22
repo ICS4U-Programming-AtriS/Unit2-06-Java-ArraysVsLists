@@ -1,9 +1,8 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 /**
 * Program that performs statistical operations on an input text file.
 * It will find and report the mean, median, and mode of an integer dataset.
@@ -46,10 +45,9 @@ public final class Statistics {
     // Return the mean
     return mean;
   }
-  
   /**
    * Function that finds and returns the median of an array.
-   * 
+   *
    * @param arr an array of integers. [MUST BE SORTED]
    * @return the median of an array.
    */
@@ -74,7 +72,7 @@ public final class Statistics {
 
   /**
    * Function that finds and returns the mode[s] of an array.
-   * 
+   *
    * @param arr an array of integers. [MUST BE SORTED]
    * @return the mode[s] of an array.
    */
@@ -153,8 +151,29 @@ public final class Statistics {
       for (int index = 0; index < listOfInts.size(); index++) {
         arrOfInts[index] = listOfInts.get(index);
       }
-      // 
-
+      // Check if array isn't empty
+      if (arrOfInts.length > 0) {
+        // Sort the array
+        Arrays.sort(arrOfInts);
+        // Display the array
+        System.out.println(Arrays.toString(arrOfInts));
+        // Calculate the mean, median, and mode
+        final double mean = calcMean(arrOfInts);
+        final double median = calcMedian(arrOfInts);
+        final int[] modes = calcMode(arrOfInts);
+        // Display the mean, median, and mode
+        System.out.printf("The mean is: %f", mean);
+        System.out.println();
+        System.out.printf("The median is: %f", median);
+        System.out.println();
+        System.out.print("The mode(s) is/are: ");
+        System.out.println(Arrays.toString(modes));
+        System.out.println();
+        System.out.println("DONE!");
+      } else {
+        // Otherwise, display an error message [IN RED]
+        System.out.println("\033[0;31mERROR: DATASET IS EMPTY.");
+      }
     } catch (IOException error) {
       System.out.println(error);
     }
