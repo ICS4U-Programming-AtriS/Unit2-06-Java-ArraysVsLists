@@ -12,10 +12,6 @@ import java.util.Arrays;
 * @since   2025-10-21
 */
 public final class Statistics {
-  /**
-   * Constant for the file path of the input file.
-   */
-  private static final String INPUT_FILE_PATH = "./input.txt";
 
   /**
    * Private constructor to satisfy style checker.
@@ -122,60 +118,64 @@ public final class Statistics {
    * @param args UNUSED.
    */
   public static void main(final String[] args) {
-    try {
-      // Access the input file and create a File object.
-      File inputFile = new File(INPUT_FILE_PATH);
-      // Scanner that will read the File Object.
-      Scanner fileReader = new Scanner(inputFile);
-      // Create list to store all the ints
-      ArrayList<Integer> listOfInts = new ArrayList<>();
-      // Loop through all available lines
-      while (fileReader.hasNextLine()) {
-        // Add the line to the list
-        // [As an integer]
-        try {
-          // Convert line to an integer
-          int num = Integer.parseInt(fileReader.nextLine());
-          // Add the number to the list
-          listOfInts.add(num);
-        } catch (NumberFormatException error) {
-          // If the line can't be converted to an integer,
-          // the program just ignores the line and continues.
-          continue;
+    for (String inputFilePath : args) {
+      System.out.println("Processing " + inputFilePath);
+      try {
+        // Access the input file and create a File object.
+        File inputFile = new File(inputFilePath);
+        // Scanner that will read the File Object.
+        Scanner fileReader = new Scanner(inputFile);
+        // Create list to store all the ints
+        ArrayList<Integer> listOfInts = new ArrayList<>();
+        // Loop through all available lines
+        while (fileReader.hasNextLine()) {
+          // Add the line to the list
+          // [As an integer]
+          try {
+            // Convert line to an integer
+            int num = Integer.parseInt(fileReader.nextLine());
+            // Add the number to the list
+            listOfInts.add(num);
+          } catch (NumberFormatException error) {
+            // If the line can't be converted to an integer,
+            // the program just ignores the line and continues.
+            continue;
+          }
         }
+        // Close the file reader
+        fileReader.close();
+        // Convert the list to an array
+        int[] arrOfInts = new int[listOfInts.size()];
+        for (int index = 0; index < listOfInts.size(); index++) {
+          arrOfInts[index] = listOfInts.get(index);
+        }
+        // Check if array isn't empty
+        if (arrOfInts.length > 0) {
+          // Sort the array
+          Arrays.sort(arrOfInts);
+          // Display the array
+          System.out.println(Arrays.toString(arrOfInts));
+          System.out.println();
+          // Calculate the mean, median, and mode
+          final double mean = calcMean(arrOfInts);
+          final double median = calcMedian(arrOfInts);
+          final int[] modes = calcMode(arrOfInts);
+          // Display the mean, median, and mode
+          System.out.printf("The mean is: %f", mean);
+          System.out.println();
+          System.out.printf("The median is: %f", median);
+          System.out.println();
+          System.out.print("The mode(s) is/are: ");
+          System.out.println(Arrays.toString(modes));
+        } else {
+          // Otherwise, display an error message [IN RED]
+          System.out.println("\033[0;31mERROR: DATASET IS EMPTY.");
+        }
+      } catch (IOException error) {
+        System.out.println(error);
       }
-      // Close the file reader
-      fileReader.close();
-      // Convert the list to an array
-      int[] arrOfInts = new int[listOfInts.size()];
-      for (int index = 0; index < listOfInts.size(); index++) {
-        arrOfInts[index] = listOfInts.get(index);
-      }
-      // Check if array isn't empty
-      if (arrOfInts.length > 0) {
-        // Sort the array
-        Arrays.sort(arrOfInts);
-        // Display the array
-        System.out.println(Arrays.toString(arrOfInts));
-        // Calculate the mean, median, and mode
-        final double mean = calcMean(arrOfInts);
-        final double median = calcMedian(arrOfInts);
-        final int[] modes = calcMode(arrOfInts);
-        // Display the mean, median, and mode
-        System.out.printf("The mean is: %f", mean);
-        System.out.println();
-        System.out.printf("The median is: %f", median);
-        System.out.println();
-        System.out.print("The mode(s) is/are: ");
-        System.out.println(Arrays.toString(modes));
-        System.out.println();
-        System.out.println("DONE!");
-      } else {
-        // Otherwise, display an error message [IN RED]
-        System.out.println("\033[0;31mERROR: DATASET IS EMPTY.");
-      }
-    } catch (IOException error) {
-      System.out.println(error);
+      System.out.println("Processing complete for " + inputFilePath);
+      System.out.println();
     }
   }
 }
