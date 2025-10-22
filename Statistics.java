@@ -79,7 +79,7 @@ public final class Statistics {
     int modePop = 0;
     // Variable for the population of a current chain of numbers.
     int currentPop = 0;
-    // Variable for the current chain's number;
+    // Variable for the current chain's number
     int currentNum = 0;
     // Go through every number in the array
     for (int num : arr) {
